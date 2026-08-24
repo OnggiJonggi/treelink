@@ -12,6 +12,8 @@ public class CompanyRegexp {
 	public static final int EMAIL_MAX_LENGTH = 100;
 	public static final int ETC_MEMO_MAX_LENGTH = 20;
 	public static final int LOCATION_NAME_MAX_LENGTH = 20;
+	
+	public static final int OPTION_MAX_LENGTH = 15;
 
 	// 정규식
 	public static final String BUSINESS_NO_REGEXP = "^[0-9]{" + BUSINESS_NO_LENGTH + "}$";

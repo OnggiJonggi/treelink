@@ -58,13 +58,13 @@
           from COMPANY COM
           <where>
             <if test="businessNo!=null and businessNo!=''">
-              and COM.BUSINESS_NO like '%' || #{businessNo} || '%'
+              and COM.BUSINESS_NO like '%' || #{businessNo} || '%' escape '/'
             </if>
             <if test="companyName!=null and companyName!=''">
-              and COM.COMPANY_NAME like '%' || #{companyName} || '%'
+              and COM.COMPANY_NAME like '%' || #{companyName} || '%' escape '/'
             </if>
             <if test="representativeName!=null and representativeName!=''">
-              and COM.REPRESENTATIVE_NAME like '%' || #{representativeName} || '%'
+              and COM.REPRESENTATIVE_NAME like '%' || #{representativeName} || '%' escape '/'
             </if>
             <if test="status!=null">
               and COM.STATUS = #{status}
@@ -77,7 +77,7 @@
                 where CS2.COMPANY_NO = COM.COMPANY_NO
                 and S2.FIELD = #{option}
                 <if test = "option == '기타' and etcMemo!=null and etcMemo!=''">
-                  and CS2.MEMO like '%' || #{etcMemo} || '%'
+                  and CS2.MEMO like '%' || #{etcMemo} || '%' escape '/'
                 </if>
               )
             </if>
@@ -102,13 +102,13 @@
     from COMPANY COM
     <where>
       <if test="businessNo!=null and businessNo!=''">
-        and COM.BUSINESS_NO like '%' || #{businessNo} || '%'
+        and COM.BUSINESS_NO like '%' || #{businessNo} || '%' escape '/'
       </if>
       <if test="companyName!=null and companyName!=''">
-        and COM.COMPANY_NAME like '%' || #{companyName} || '%'
+        and COM.COMPANY_NAME like '%' || #{companyName} || '%' escape '/'
       </if>
       <if test="representativeName!=null and representativeName!=''">
-        and COM.REPRESENTATIVE_NAME like '%' || #{representativeName} || '%'
+        and COM.REPRESENTATIVE_NAME like '%' || #{representativeName} || '%' escape '/'
       </if>
       <if test="status!=null">
         and COM.STATUS = #{status}
@@ -121,7 +121,7 @@
           where CS2.COMPANY_NO = COM.COMPANY_NO
           and S2.FIELD = #{option}
           <if test = "option == '기타' and etcMemo!=null and etcMemo!=''">
-            and CS2.MEMO like '%' || #{etcMemo} || '%'
+            and CS2.MEMO like '%' || #{etcMemo} || '%' escape '/'
           </if>
         )
       </if>

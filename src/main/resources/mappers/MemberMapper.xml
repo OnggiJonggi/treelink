@@ -87,16 +87,16 @@
 					from MEMBER
 					<where>
 						<if test="userId!=null and userId!='' ">
-							and ID like  '%' || #{userId} || '%'
+							and ID like  '%' || #{userId} || '%' escape '/'
 						</if>
 						<if test="name!=null and name!='' ">
-							and NAME like '%' || #{name} || '%'
+							and NAME like '%' || #{name} || '%' escape '/'
 						</if>
 						<if test="nickname!=null and nickname!='' ">
-							and NICKNAME like '%' || #{nickname} || '%'
+							and NICKNAME like '%' || #{nickname} || '%' escape '/'
 						</if>
 						<if test="phone!=null and phone!='' ">
-							and PHONE like '%' || #{phone} || '%'
+							and PHONE like '%' || #{phone} || '%' escape '/'
 						</if>
 						<if test="status!=null and status.name()!='' ">
 							and STATUS = #{status}
@@ -127,16 +127,16 @@
 		from MEMBER M
 		<where>
 			<if test="userId!=null and userId!='' ">
-				and M.ID like '%' || #{userId} || '%'
+				and M.ID like '%' || #{userId} || '%' escape '/'
 			</if>
 			<if test="name!=null and name!='' ">
-				and M.NAME like '%' || #{name} || '%'
+				and M.NAME like '%' || #{name} || '%' escape '/'
 			</if>
 			<if test="nickname!=null and nickname!='' ">
-				and M.NICKNAME like '%' || #{nickname} || '%'
+				and M.NICKNAME like '%' || #{nickname} || '%' escape '/'
 			</if>
 			<if test="phone!=null and phone!='' ">
-				and M.PHONE like '%' || #{phone} || '%'
+				and M.PHONE like '%' || #{phone} || '%' escape '/'
 			</if>
 			<if test="status!=null and status.name()!='' ">
 				and M.STATUS = #{status}

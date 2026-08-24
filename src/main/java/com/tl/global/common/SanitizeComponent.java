@@ -12,8 +12,10 @@ import org.springframework.stereotype.Component;
 public class SanitizeComponent {
 
 	/**
+	 * summernote입력값 소독해요
+	 * 
 	 * 사용자가 HTML 태그 사용이 가능한 입력칸에 멋대로 나쁜 태그를 으쌰으쌰하면 떽!하는 메소드지요
-	 * summernote에 사용하는 태그는 통화하지요
+	 * summernote에 사용하는 태그는 통과하지요
 	 */
 	private static final Safelist POLICY = Safelist.relaxed()
 		    .removeProtocols("img", "src", "http", "https")
@@ -28,7 +30,7 @@ public class SanitizeComponent {
 		    .addAttributes("div", "style")
 		    .addAttributes(":all", "class");
 
-	public String sanitize(String rawHtml) {
+	public String summernote(String rawHtml) {
 		
 		// 없는데 여길 왜 와?
 		if (rawHtml == null || rawHtml.isBlank())
@@ -45,30 +47,63 @@ public class SanitizeComponent {
 	
 	/**
 	 * 검색어 소독
-	 * 오라클의 like 예약어 %,_ 이스케이프 및 길이 제한
+	 * 
+	 * 클라이언트에서 DB로 LIKE문법을 사용하는 조회를 할 때 사용
+	 * 
+	 * 1. trim()
+	 * 2. 최대 길이 제한 - 엄청난 길이의 쿼리스트링으로 DB괴롭히기 멈춰!
+	 * 3. LIKE예약어(%,_) 이스케이프
 	 * 
 	 * @param 검색 문자열
-	 * @param 최대 허용 길이
+	 * @param 최대 허용 길이(정규식 저장소에서 얻어냄)
 	 * @return 소독된 문자열
 	 */
-	public String searchKeyword(String keyword, int maxLength) {
+	public String searchWord(String searchWord, int maxLength) {
 		
 		// 없으면 가라
-		if (keyword == null) return null;
+		if (searchWord == null) return null;
 
 		// trim()
-		keyword = keyword.trim();
+		searchWord = searchWord.trim();
 
-		// 길면 가
-		if (keyword.length() > maxLength)
-			keyword = keyword.substring(0, maxLength);
+		// 길면 싹둑
+		if (searchWord.length() > maxLength)
+			searchWord = searchWord.substring(0, maxLength);
 
 		// 이스케이프 문자 : '/'
-		keyword = keyword
+		searchWord = searchWord
 				.replace("/", "//")
 				.replace("%", "/%")
 				.replace("_", "/_");
 
-		return keyword;
+		return searchWord;
+	}
+	
+	
+	/**
+	 * 검색어 소독
+	 * 
+	 * 클라이언트에서 DB로 LIKE문법을 사용하지 않는 조회를 할 때 사용
+	 * 
+	 * 1. trim()
+	 * 2. 최대 길이 제한
+	 * 
+	 * @param 검색 문자열
+	 * @param 최대 허용 길이(정규식 저장소에서 얻어냄)
+	 * @return 소독된 문자열
+	 */
+	public String searchWordNotLike(String searchWord, int maxLength) {
+		
+		// 없으면 가라
+		if (searchWord == null) return null;
+		
+		// trim()
+		searchWord = searchWord.trim();
+		
+		// 길면 잘라
+		if (searchWord.length() > maxLength)
+			searchWord = searchWord.substring(0, maxLength);
+		
+		return searchWord;
 	}
 }

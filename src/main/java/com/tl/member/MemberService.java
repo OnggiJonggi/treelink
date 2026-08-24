@@ -73,11 +73,10 @@ public class MemberService{
 	public SearchResultVO<MemberVO.Detail> getList(MemberVO.Search search) throws Exception {
 		
 		// 검색어 소독
-		search.setUserId(sanitizeComponent.searchKeyword(search.getUserId(), MemberRegexp.ID_MAX_LENGTH));
-		search.setName(sanitizeComponent.searchKeyword(search.getName(), MemberRegexp.NAME_MAX_LENGTH));
-		search.setNickname(sanitizeComponent.searchKeyword(search.getNickname(), MemberRegexp.NAME_MAX_LENGTH));
-		search.setPhone(sanitizeComponent.searchKeyword(search.getPhone(), MemberRegexp.PHONE_MAX_LENGTH));
-		
+		search.setUserId(sanitizeComponent.searchWord(search.getUserId(), MemberRegexp.ID_MAX_LENGTH));
+		search.setName(sanitizeComponent.searchWord(search.getName(), MemberRegexp.NAME_MAX_LENGTH));
+		search.setNickname(sanitizeComponent.searchWord(search.getNickname(), MemberRegexp.NAME_MAX_LENGTH));
+		search.setPhone(sanitizeComponent.searchWord(search.getPhone(), MemberRegexp.PHONE_MAX_LENGTH));
 		
 		// 목록 조회
 		List<MemberVO.Detail> result = memberMapper.selectMemberList(search);

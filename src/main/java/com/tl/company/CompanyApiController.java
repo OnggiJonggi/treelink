@@ -68,7 +68,8 @@ public class CompanyApiController {
 	 * 관리자 : 비활성화된 업체도 조회
 	 */
 	@GetMapping("")
-	public ResponseEntity<SearchResultVO<CompanyVO.Detail>> goCompanyList(CompanyVO.Search companySearch,
+	public ResponseEntity<SearchResultVO<CompanyVO.Detail>> goCompanyList(
+			@ModelAttribute CompanyVO.Search companySearch,
 			@AuthenticationPrincipal CustomUserDetails userDetails,
 			@HasRole(RoleEnum.ADMIN) boolean isAdmin
 			) throws Exception{
@@ -137,7 +138,8 @@ public class CompanyApiController {
 	@PostMapping("{encCompanyNo}/location")
 	public ResponseEntity<Void> insertLocation(
 			@PathVariable String encCompanyNo,
-			@ModelAttribute @Valid CompanyVO.InsertLocation location) throws Exception{
+			@ModelAttribute @Valid CompanyVO.InsertLocation location
+			) throws Exception{
 		
 		int companyNo = cryptoComponent.decrypt(encCompanyNo);
 		location.setCompanyNo(companyNo);
@@ -219,7 +221,8 @@ public class CompanyApiController {
 	@PostMapping("{encCompanyNo}/management")
 	public ResponseEntity<Void> insertManagement(
 			@PathVariable String encCompanyNo,
-			@ModelAttribute @Valid ManagementVO.Insert insert) throws Exception{
+			@ModelAttribute @Valid ManagementVO.Insert insert
+			) throws Exception{
 		
 		int companyNo = cryptoComponent.decrypt(encCompanyNo);
 		insert.setCompanyNo(companyNo);

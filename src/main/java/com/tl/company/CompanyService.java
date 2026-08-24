@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.tl.company.CompanyVO.Search;
 import com.tl.global.common.ExtractFromHtml;
 import com.tl.global.common.SanitizeComponent;
 import com.tl.global.common.SearchResultVO;
@@ -36,7 +35,14 @@ public class CompanyService {
 	/**
 	 * 업체 조회
 	 */
-	public SearchResultVO<CompanyVO.Detail> getCompanyList(Search companySearch) {
+	public SearchResultVO<CompanyVO.Detail> getCompanyList(CompanyVO.Search companySearch) {
+		
+		// 검색어 소독
+		companySearch.setBusinessNo(sanitizeComponent.searchWord(companySearch.getBusinessNo(), CompanyRegexp.BUSINESS_NO_LENGTH));
+		companySearch.setCompanyName(sanitizeComponent.searchWord(companySearch.getCompanyName(), CompanyRegexp.COMPANY_NAME_MAX_LENGTH));
+		companySearch.setRepresentativeName(sanitizeComponent.searchWord(companySearch.getRepresentativeName(), CompanyRegexp.REPRESENTATIVE_NAME_MAX_LENGTH));
+		companySearch.setOption(sanitizeComponent.searchWord(companySearch.getOption(), CompanyRegexp.OPTION_MAX_LENGTH));
+		companySearch.setEtcMemo(sanitizeComponent.searchWord(companySearch.getEtcMemo(), CompanyRegexp.ETC_MEMO_MAX_LENGTH));
 		
 		// 목록 조회
 		List<CompanyVO.Detail> result = companyMapper.selectList(companySearch);
@@ -139,7 +145,7 @@ public class CompanyService {
 	public void updateIntro(String intro, int companyNo, int memberNo) {
 		
 		// 나쁜 태그 대롱대롱 하지요
-		intro = sanitizeComponent.sanitize(intro);
+		intro = sanitizeComponent.summernote(intro);
 		
 		// 소개문 업데이트
 		int result = companyMapper.updateIntro(companyNo, intro);

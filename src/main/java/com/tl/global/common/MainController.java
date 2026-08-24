@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.tl.global.exception.CustomException;
 import com.tl.global.exception.ErrorCodeEnum;
+import com.tl.global.security.role.CanAccess;
+import com.tl.global.security.role.RoleEnum;
 
 @Controller
 public class MainController {
@@ -15,8 +17,18 @@ public class MainController {
 	 * 비 로그인, 로그인, 관리자, 컨설턴트에 따른 페이지 분기 
 	 */
 	@GetMapping("")
-	public String main() {
+	public String goMain() {
 		return "common/main";
+	}
+	
+	
+	/**
+	 * 관리자 전용 페이지로
+	 */
+	@CanAccess(RoleEnum.ADMIN)
+	@GetMapping("admin/main")
+	public String goAdminMain() {
+		return "admin/main";
 	}
 	
 	
